@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shayderrr Static Hub</title>
+  <style>
+    :root {
+      --bg: #0e1117;
+      --card: #161b22;
+      --text: #e6edf3;
+      --accent: #58a6ff;
+    }
+
+    body {
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      color: var(--accent);
+      font-size: 2.4rem;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      max-width: 600px;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .projects {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      width: 100%;
+      max-width: 900px;
+    }
+
+    .card {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 1.2rem 1.4rem;
+      transition: transform 0.15s ease, background 0.2s ease;
+    }
+
+    .card:hover {
+      background: #1c2330;
+      transform: translateY(-3px);
+    }
+
+    .card a {
+      color: var(--accent);
+      font-size: 1.1rem;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer {
+      margin-top: 3rem;
+      opacity: 0.6;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Shayderrr Static Hub</h1>
+  <p>Welcome to my GitHub Pages site. Browse all my static projects below — each folder leads to something cool.</p>
+
+  <div class="projects">
+    <div class="card"><a href="UGS-Single%20File/">UGS Single File</a></div>
+    <div class="card"><a href="Universal%20Launcher/">Universal Launcher</a></div>
+    <div class="card"><a href="some-other-folder/">Example Project</a></div>
+  </div>
+
+  <footer>
+    © 2025 Shayderrr — Powered by GitHub Pages
+  </footer>
+</body>
+</html>
