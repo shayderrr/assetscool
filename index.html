@@ -1,87 +1,415 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Shayderrr Static Hub</title>
-  <style>
-    :root {
-      --bg: #0e1117;
-      --card: #161b22;
-      --text: #e6edf3;
-      --accent: #58a6ff;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Shayder.ME</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      margin: 0;
-      padding: 2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+        :root {
+            --purple-900: #1a0033;
+            --purple-800: #2d0052;
+            --purple-700: #4a0080;
+            --purple-600: #6b21a8;
+            --purple-500: #8b5cf6;
+            --purple-400: #a78bfa;
+            --purple-300: #c4b5fd;
+            --purple-200: #e9d5ff;
+            --black: #000000;
+            --white: #ffffff;
+            --gray-100: #f3f4f6;
+            --gray-200: #e5e7eb;
+            --gray-300: #d1d5db;
+        }
 
-    h1 {
-      color: var(--accent);
-      font-size: 2.4rem;
-      margin-bottom: 0.5rem;
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
 
-    p {
-      max-width: 600px;
-      text-align: center;
-      opacity: 0.8;
-    }
+        /* Animated background */
+        .background-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #1a0033 50%, #000000 100%);
+            z-index: 0;
+        }
 
-    .projects {
-      margin-top: 2rem;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      width: 100%;
-      max-width: 900px;
-    }
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, white, transparent),
+                radial-gradient(2px 2px at 60px 70px, white, transparent),
+                radial-gradient(1px 1px at 50px 50px, white, transparent),
+                radial-gradient(1px 1px at 130px 80px, white, transparent),
+                radial-gradient(2px 2px at 90px 150px, white, transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.4;
+            animation: starsMove 100s linear infinite;
+            z-index: 1;
+        }
 
-    .card {
-      background: var(--card);
-      border-radius: 12px;
-      padding: 1.2rem 1.4rem;
-      transition: transform 0.15s ease, background 0.2s ease;
-    }
+        @keyframes starsMove {
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
+        }
 
-    .card:hover {
-      background: #1c2330;
-      transform: translateY(-3px);
-    }
+        /* Purple glow orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.2;
+            z-index: 2;
+            animation: float 20s ease-in-out infinite;
+        }
 
-    .card a {
-      color: var(--accent);
-      font-size: 1.1rem;
-      text-decoration: none;
-      font-weight: 600;
-    }
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--purple-600), transparent);
+            top: -100px;
+            left: -100px;
+            animation-duration: 25s;
+        }
 
-    footer {
-      margin-top: 3rem;
-      opacity: 0.6;
-      font-size: 0.9rem;
-    }
-  </style>
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--purple-700), transparent);
+            bottom: -100px;
+            right: -100px;
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+        }
+
+        .time-display {
+            display: inline-block;
+            font-size: 0.875rem;
+            color: var(--purple-300);
+            background: rgba(139, 92, 246, 0.1);
+            padding: 0.5rem 1.25rem;
+            border-radius: 2rem;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        /* Main content card */
+        .content-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 3rem;
+            box-shadow: 
+                0 20px 50px rgba(0, 0, 0, 0.5),
+                0 0 100px rgba(139, 92, 246, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.05);
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Page title */
+        .page-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--white) 0%, var(--purple-300) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+            text-align: center;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--purple-200);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            text-align: center;
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--purple-500), transparent);
+            margin: 2.5rem 0;
+            opacity: 0.3;
+        }
+
+        /* Announcement section */
+        .announcement-section {
+            text-align: center;
+        }
+
+        .profile-image {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px solid var(--purple-500);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.4);
+            margin: 0 auto 1.5rem;
+            display: block;
+            background: rgba(139, 92, 246, 0.1);
+            padding: 1rem;
+        }
+
+        .author-name {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 2rem;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--purple-600), var(--purple-700));
+            color: var(--white);
+            padding: 0.5rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .star-icon {
+            display: inline-block;
+            font-size: 1.25rem;
+            animation: rotateStar 3s linear infinite;
+            filter: drop-shadow(0 0 8px currentColor);
+        }
+
+        @keyframes rotateStar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Message box */
+        .message-box {
+            background: rgba(139, 92, 246, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 1rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            text-align: left;
+        }
+
+        .message-box p {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: var(--purple-100);
+            margin: 0;
+        }
+
+        /* Call to action */
+        .cta-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--purple-600), var(--purple-700));
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.4);
+        }
+
+        .cta-button:active {
+            transform: translateY(0);
+        }
+
+        /* Icon styles */
+        .icon {
+            display: inline-block;
+            width: 1.25rem;
+            height: 1.25rem;
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .content-card {
+                padding: 2rem 1.5rem;
+            }
+
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .author-name {
+                font-size: 1.5rem;
+            }
+
+            .message-box {
+                padding: 1.5rem;
+            }
+
+            .cta-button {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .profile-image {
+                width: 100px;
+                height: 100px;
+            }
+        }
+    </style>
 </head>
 <body>
-  <h1>Shayderrr Static Hub</h1>
-  <p>Welcome to my GitHub Pages site. Browse all my static projects below — each folder leads to something cool.</p>
+    <!-- Background elements -->
+    <div class="background-gradient"></div>
+    <div class="stars"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
 
-  <div class="projects">
-    <div class="card"><a href="UGS-Single%20File/">UGS Single File</a></div>
-    <div class="card"><a href="Universal%20Launcher/">Universal Launcher</a></div>
-    <div class="card"><a href="some-other-folder/">Example Project</a></div>
-  </div>
+    <!-- Main content -->
+    <div class="container">
+        <header class="header">
+            <div class="time-display" id="currentTime"></div>
+        </header>
 
-  <footer>
-    © 2025 Shayderrr — Powered by GitHub Pages
-  </footer>
+        <main class="content-card">
+            <h1 class="page-title">Announcements</h1>
+            <p class="page-subtitle">Updates, Concerns, and Important Information</p>
+
+            <div class="divider"></div>
+
+            <section class="announcement-section">
+                <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Anonymous_emblem.svg/1200px-Anonymous_emblem.svg.png" 
+                    alt="Anonymous Logo" 
+                    class="profile-image"
+                >
+
+                <div class="author-name">
+                    <span>Anonymous</span>
+                    <span class="badge">
+                        <span class="star-icon">★</span>
+                        <span>Administrator</span>
+                    </span>
+                </div>
+
+                <div class="message-box">
+                    <p>
+Welcome to my site! I'm excited to have you here. I hope it doesn't say that you cant embed this website, as i want this website to be completly open source.
+                    </p>
+                </div>
+
+                <div class="cta-section">
+                    <a href="#" class="cta-button" onclick="return false;">
+                        <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                      
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toUTCString();
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+    </script>
 </body>
 </html>
