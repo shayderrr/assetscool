@@ -1704,9 +1704,9 @@ body.show-chatbot .chatbot {
         <a href="javascript:void(0);" onclick="downloadPage()">Download aether-Offline&nbsp;&nbsp; <i class="fa-solid fa-download" style="font-size: 15px; color: #66ffa1;"></i>
         </a>
         <a href="javascript:void(0);" id="dataURL" onclick="generateDataURL()">Generate Session's Data Url</a>
-        <a href="https://github.com/dinguschan-owo/Helios" target="_blank"> Source Code&nbsp;&nbsp; <i class="fa-solid fa-up-right-from-square" style="font-size: 15px; color: #66ffa1;"></i>
+        <a href="https://github.com/shayderrr/assetscool" target="_blank"> Source Code&nbsp;&nbsp; <i class="fa-solid fa-up-right-from-square" style="font-size: 15px; color: #66ffa1;"></i>
         </a>
-        <a href="https://github.com/dinguschan-owo/Helios/issues/new" target="_blank">Submit an Issue&nbsp;&nbsp; <i class="fa-solid fa-up-right-from-square" style="font-size: 15px; color: #66ffa1;"></i>
+        <a href="https://github.com/shayderrr/assetscool/issues/new" target="_blank">Submit an Issue&nbsp;&nbsp; <i class="fa-solid fa-up-right-from-square" style="font-size: 15px; color: #66ffa1;"></i>
         </a>
         <div class="user-idff" id="user-idff"> Your User ID will appear here</div>
       </div>
@@ -1721,8 +1721,8 @@ body.show-chatbot .chatbot {
             <i class="fa-brands fa-github"></i>
           </p>
         </div>
-        <h23>Helios</h23>
-        <h21>𝚟𝟷.𝟿.𝟶</h21>
+        <h23>Aether</h23>
+        <h21>𝚟𝟷.𝟶</h21>
         <div class="search-baraa">
           <div class="search-containeraa">
             <div class="search-engine-dropdownaa" onclick="toggleDropdown()">
@@ -1757,7 +1757,7 @@ body.show-chatbot .chatbot {
       </div>
           <div class="chatbot">
       <header>
-        &nbsp;Helios AI (Experimental)
+        &nbsp;Aether AI (Experimental)
         <button class="close-btn">✕</button>
       </header>
       <div class="chatbox"></div>
@@ -1780,12 +1780,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // List of official Helios URLs
     const officialUrls = [
-        "https://helios-browser.vercel.app/",
-        "https://helios-blue.vercel.app/",
-        "https://helios-browser.rf.gd",
-        "https://helios-browser.w3spaces.com/",
-        "https://helios-browser.pages.dev/",
-        "https://helios-browser.ct.ws"
+      "https://google.com"
     ];
 
     function normalizeUrl(url) {
@@ -1838,8 +1833,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 messageElement.innerHTML = `This link <b>(${pageUrl})</b> is a secure, official Helios Browser link.`;
             } else {
                 console.log("DEBUG: UNOFFICIAL URL detected!");
-                iconElement.classList.add("fa", "fa-triangle-exclamation", "sitechecker-warning");
-                messageElement.innerHTML = `This link <b>(${pageUrl})</b> is not an official Helios Browser link. Use at your own risk, or find a list of official Helios Browser links <a href="https://github.com/dinguschan-owo/Helios/blob/main/README.md" target="_blank" class="sitechecker-link">here</a>.`;
+                iconElement.classList.add("fa", "fa-circle-check", "sitechecker-secure");
+                messageElement.innerHTML = `This link <b>(${pageUrl})</b> is an official Aether Browser link.`;
             }
 
             console.log("DEBUG: Text updated inside Sitechecker box.");
