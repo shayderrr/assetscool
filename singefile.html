@@ -1,0 +1,2438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <audio src="https://cdn.jsdelivr.net/gh/shayderrr/Static@main/Ambient-BreakcoreDnB-Mix-02.mp3" autoplay loop></audio>
+  <link rel="icon" href="https://instructure-uploads.s3.amazonaws.com/account_30000000002042/attachments/80746393/favicon-16x16.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root { --p9:#1a0033;--p8:#2d0052;--p7:#4a0080;--p6:#6b21a8;--p5:#8b5cf6; 
+      --p4:#a78bfa;--p3:#c4b5fd;--p2:#e9d5ff;--p1:#f3e8ff;--black:#000;--white:#fff; }
+    html,body{width:100%;height:100%;background:var(--black);font-family:'Inter',sans-serif;color:var(--white);}
+    .bg{position:fixed;inset:0;background:linear-gradient(135deg,#000 0%,#0a0015 50%,#000 100%);z-index:-3;}
+    .stars{position:fixed;inset:0;background-image: 
+      radial-gradient(2px 2px at 20px 30px,white,transparent), 
+      radial-gradient(2px 2px at 60px 70px,white,transparent), 
+      radial-gradient(1px 1px at 50px 50px,white,transparent), 
+      radial-gradient(1px 1px at 130px 80px,white,transparent), 
+      radial-gradient(2px 2px at 90px 150px,white,transparent); 
+      background-repeat:repeat;background-size:200px 200px;opacity:.4; animation:s 100s linear infinite;z-index:-2;}
+    @keyframes s{from{transform:translateY(0)}to{transform:translateY(-200px)}}
+    .orb{position:fixed;border-radius:50%;filter:blur(60px);opacity:.1;z-index:-1;animation:f 20s ease-in-out infinite;}
+    .orb-1{width:400px;height:400px;background:radial-gradient(circle,var(--p6),transparent);top:-100px;left:-100px;animation-duration:25s;}
+    .orb-2{width:350px;height:350px;background:radial-gradient(circle,var(--p7),transparent);bottom:-100px;right:-100px;animation-duration:30s;animation-delay:-10s;}
+    @keyframes f{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(50px,-50px) scale(1.1)}66%{transform:translate(-50px,50px) scale(.9)}}
+    header{position:fixed;top:0;left:0;right:0;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;z-index:1000;pointer-events:none;}
+    .logo{font-family:'Space Grotesk',sans-serif;font-size:1.6rem;font-weight:700;background:linear-gradient(135deg,var(--white),var(--p3));-webkit-background-clip:text;-webkit-text-fill-color:transparent;pointer-events:auto;}
+    .hamburger{display:block;width:36px;height:36px;background:rgba(139,92,246,.15);border:1px solid rgba(139,92,246,.3);border-radius:50%;position:relative;cursor:pointer;pointer-events:auto;transition:.3s;box-shadow:0 0 15px rgba(139,92,246,.3);}
+    .hamburger:hover{background:rgba(139,92,246,.3);box-shadow:0 0 25px rgba(139,92,246,.5);transform:scale(1.05);}
+    .hamburger span{position:absolute;left:50%;top:50%;width:18px;height:2px;background:var(--p3);border-radius:2px;transform:translate(-50%,-50%);transition:.3s;box-shadow:0 0 8px rgba(139,92,246,.6);}
+    .hamburger span:nth-child(1){transform:translate(-50%,-6px);}
+    .hamburger span:nth-child(2){transform:translate(-50%,0);}
+    .hamburger span:nth-child(3){transform:translate(-50%,6px);}
+    .hamburger.active span:nth-child(1){transform:translate(-50%,0) rotate(45deg);}
+    .hamburger.active span:nth-child(2){opacity:0;}
+    .hamburger.active span:nth-child(3){transform:translate(-50%,0) rotate(-45deg);}
+    .menu{position:fixed;top:0;left:-100%;width:100%;max-width:360px;height:100vh;background:rgba(10,0,21,.98);backdrop-filter:blur(30px);border-right:1px solid rgba(139,92,246,.2);padding:6rem 2rem 2rem;transition:left .5s cubic-bezier(.25,.8,.25,1);z-index:999;overflow-y:auto;}
+    .menu.open{left:0;}
+    .close-btn{position:absolute;top:1.5rem;right:1.5rem;width:40px;height:40px;background:rgba(139,92,246,.2);border:1px solid rgba(139,92,246,.4);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.3s;}
+    .close-btn:hover{background:rgba(139,92,246,.4);transform:rotate(90deg);}
+    .close-btn svg{width:20px;height:20px;stroke:var(--p3);}
+    .menu { overflow-y: auto; scrollbar-width: thin; scrollbar-color: rgb(24, 0, 34) transparent; }
+    .menu::-webkit-scrollbar { width: 6px; }
+    .menu::-webkit-scrollbar-track { background: transparent; }
+    .menu::-webkit-scrollbar-thumb { background-color: rgba(10,0,21,.98); border-radius: 3px; }
+    .menu::-webkit-scrollbar-thumb:hover { background-color: rgba(15,6,25,.98); }
+    .nav-list{list-style:none;}
+    .nav-category{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;font-weight:600;color:var(--p3);margin:2rem 0 1rem;padding-bottom:.5rem;border-bottom:1px solid rgba(139,92,246,.2);}
+    .nav-link{display:block;padding:.8rem 1rem;color:var(--p1);text-decoration:none;border-radius:.75rem;transition:all .3s;position:relative;overflow:hidden;cursor:pointer;}
+    .nav-link:hover{color:var(--white);background:rgba(139,92,246,.15);transform:translateX(8px);box-shadow:0 0 20px rgba(139,92,246,.2);}
+    #container{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;overflow-y:auto;overflow-x:hidden;}
+    #content-display{min-height:100%;width:100%;}
+    @media(max-width:768px){.menu{max-width:100%;}.logo{font-size:1.4rem;}}
+    /* ---------- Theme / layout (adapted from your theme) ---------- */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --bg: #000;
+      --panel: rgba(255, 255, 255, 0.03);
+      --accent1: #6b21a8;
+      --accent2: #8b5cf6;
+      --accent3: #a78bfa;
+      --muted: #c4b5fd;
+      --purple-200: #e9d5ff;
+      --purple-100: #f3e8ff;
+      --white: #fff;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --danger: #ff5c5c;
+      --gold: #fbbf24;
+      --online: #34d399;
+      --offline: rgba(255,255,255,0.06);
+    }
+    html, body {
+      height: 100%;
+    }
+    body {
+      background: linear-gradient(135deg, #000000 0%, #0a0015 50%, #000000 100%);
+      color: var(--white);
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      display: flex;
+      min-height: 100vh;
+      align-items: stretch;
+      gap: 18px;
+      padding: 18px;
+      overflow: hidden;
+    }
+    /* animated orbs/stars */
+    .stars {
+      position: fixed;
+      inset: 0;
+      background-image:
+        radial-gradient(2px 2px at 20px 30px, rgba(255, 255, 255, 0.85), transparent),
+        radial-gradient(2px 2px at 60px 70px, rgba(255, 255, 255, 0.75), transparent),
+        radial-gradient(1px 1px at 50px 50px, rgba(255, 255, 255, 0.65), transparent),
+        radial-gradient(1px 1px at 130px 80px, rgba(255, 255, 255, 0.7), transparent),
+        radial-gradient(2px 2px at 90px 150px, rgba(255, 255, 255, 0.8), transparent);
+      background-repeat: repeat;
+      background-size: 200px 200px;
+      opacity: 0.4;
+      animation: starsMove 100s linear infinite;
+      z-index: 0;
+    }
+    @keyframes starsMove {
+      from { transform: translateY(0); }
+      to { transform: translateY(-200px); }
+    }
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(60px);
+      opacity: 0.1;
+      z-index: 0;
+      animation: float 20s ease-in-out infinite;
+    }
+    .orb.a {
+      width: 400px;
+      height: 400px;
+      left: -100px;
+      top: -100px;
+      background: radial-gradient(circle, var(--accent1), transparent);
+      animation-duration: 25s;
+    }
+    .orb.b {
+      width: 350px;
+      height: 350px;
+      right: -100px;
+      bottom: -100px;
+      background: radial-gradient(circle, var(--accent2), transparent);
+      animation-duration: 30s;
+      animation-delay: -10s;
+    }
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(50px, -50px) scale(1.1); }
+      66% { transform: translate(-50px, 50px) scale(0.9); }
+    }
+    /* Main container layout */
+    .app {
+      position: relative;
+      z-index: 10;
+      display: grid;
+      grid-template-columns: 72px 1fr 300px;
+      gap: 18px;
+      width: 100%;
+      align-items: stretch;
+      animation: fadeIn 1s ease-out;
+    }
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    /* ------------- Left side: servers list ------------- */
+    .servers {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(139, 92, 246, 0.1);
+      border-radius: 1.5rem;
+      padding: 12px 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      align-items: center;
+      height: calc(100vh - 36px);
+      position: relative;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    #serverList {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+      width: 100%;
+    }
+    .servers::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(180deg, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+      border-radius: 1.5rem;
+      pointer-events: none;
+    }
+    .servers > div:first-child {
+      font-size: 0.7rem;
+      color: var(--accent3);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+      margin-bottom: 4px;
+      opacity: 0.8;
+      z-index: 1;
+      position: relative;
+    }
+    .server-btn {
+      width: 52px;
+      height: 52px;
+      min-width: 52px;
+      min-height: 52px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(255, 255, 255, 0.02);
+      cursor: pointer;
+      border: 1px solid rgba(139, 92, 246, 0.08);
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--muted);
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+      flex-shrink: 0;
+    }
+    .server-btn::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 0;
+      height: 0;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--accent2), transparent);
+      transition: width 0.3s ease, height 0.3s ease;
+      transform: translate(-50%, -50%);
+    }
+    .server-btn:hover {
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.25);
+      border-color: rgba(139, 92, 246, 0.3);
+      background: rgba(139, 92, 246, 0.08);
+    }
+    .server-btn:hover::before {
+      width: 100px;
+      height: 100px;
+    }
+    .server-btn.active {
+      background: var(--accent1);
+      color: white;
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.35);
+      border-color: transparent;
+    }
+    .add-server {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--accent3);
+      background: rgba(139, 92, 246, 0.05);
+      border-style: dashed;
+      border-width: 2px;
+    }
+    .add-server:hover {
+      color: var(--white);
+      border-style: solid;
+      background: rgba(139, 92, 246, 0.15);
+    }
+    /* Profile mini section (includes sign-in button when logged out) */
+    #profileMini {
+      margin-top: auto;
+      padding-top: 8px;
+      border-top: 1px solid rgba(139, 92, 246, 0.1);
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      position: relative;
+      z-index: 1;
+    }
+    #profileMini .server-btn {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.05));
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      color: var(--purple-100);
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    #profileMini .server-btn:hover {
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: white;
+      border-color: transparent;
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+    }
+    /* Scrollbar styling for servers */
+    .servers::-webkit-scrollbar {
+      width: 4px;
+    }
+    .servers::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .servers::-webkit-scrollbar-thumb {
+      background: rgba(139, 92, 246, 0.3);
+      border-radius: 2px;
+    }
+    .servers::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 92, 246, 0.5);
+    }
+    /* ------------- Middle: channels & chat ------------- */
+    .main-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      height: calc(100vh - 36px);
+      overflow: hidden;
+    }
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+      background: rgba(139, 92, 246, 0.02);
+      border-radius: 12px 12px 0 0;
+      margin: -12px -12px 0 -12px;
+      flex-shrink: 0;
+    }
+    .server-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--white) 0%, var(--muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .small-btn {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      padding: 8px 14px;
+      border-radius: 10px;
+      color: var(--purple-100);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+    }
+    .small-btn:hover {
+      background: rgba(139, 92, 246, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+      color: var(--white);
+    }
+    .channels-and-chat {
+      display: flex;
+      flex: 1;
+      gap: 12px;
+      overflow: hidden;
+      padding-top: 16px;
+      min-height: 0;
+    }
+    .channels {
+      width: 230px;
+      flex-shrink: 0;
+      border-right: 1px solid rgba(139, 92, 246, 0.05);
+      padding-right: 12px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .channels h4 {
+      font-size: 0.75rem;
+      color: var(--accent3);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .channel-item {
+      padding: 10px 12px;
+      border-radius: 10px;
+      color: var(--muted);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.2s ease;
+      font-weight: 500;
+      margin-bottom: 4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .channel-item:hover {
+      background: rgba(139, 92, 246, 0.05);
+      color: var(--purple-100);
+      transform: translateX(4px);
+    }
+    .channel-item.active {
+      color: var(--white);
+      background: rgba(139, 92, 246, 0.15);
+      border-left: 3px solid var(--accent2);
+      padding-left: 9px;
+    }
+    .chat {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      height: 100%;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .messages {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      scrollbar-width: thin;
+      scrollbar-color: var(--accent2) transparent;
+    }
+    .messages::-webkit-scrollbar {
+      width: 6px;
+    }
+    .messages::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .messages::-webkit-scrollbar-thumb {
+      background: var(--accent2);
+      border-radius: 3px;
+    }
+    .msg {
+      max-width: 70%;
+      padding: 12px 16px;
+      padding-top: 20px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      color: var(--purple-100);
+      font-size: 0.95rem;
+      position: relative;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s ease;
+      line-height: 1.6;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+    }
+    .msg:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.1);
+    }
+    .msg.me {
+      margin-left: auto;
+      background: linear-gradient(135deg, var(--accent1), var(--accent2));
+      color: white;
+      border-color: transparent;
+      box-shadow: 0 4px 20px rgba(139, 92, 246, 0.2);
+    }
+    .msg.deleted {
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.4);
+      background: rgba(255, 255, 255, 0.01);
+      border-color: rgba(255, 255, 255, 0.02);
+    }
+    .msg .meta {
+      font-size: 0.75rem;
+      color: var(--accent3);
+      margin-bottom: 8px;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+    .msg.me .meta {
+      color: rgba(255, 255, 255, 0.8);
+    }
+    .msg .meta .edited {
+      font-size: 0.7rem;
+      color: var(--muted);
+      opacity: 0.7;
+      text-transform: lowercase;
+    }
+    .msg .controls {
+      position: absolute;
+      top: -12px;
+      right: 12px;
+      display: flex;
+      gap: 8px;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      background: rgba(10, 0, 20, 0.9);
+      padding: 4px;
+      border-radius: 8px;
+      backdrop-filter: blur(10px);
+    }
+    .msg:hover .controls {
+      opacity: 1;
+    }
+    .ctrl-btn {
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      padding: 6px 12px;
+      border-radius: 8px;
+      color: var(--purple-100);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 500;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .ctrl-btn:hover {
+      background: rgba(139, 92, 246, 0.2);
+      color: var(--white);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+    }
+    .composer {
+      display: flex;
+      gap: 8px;
+      padding: 12px;
+      border-top: 1px solid rgba(139, 92, 246, 0.05);
+      background: rgba(139, 92, 246, 0.02);
+      border-radius: 0 0 12px 12px;
+      margin: 0 -12px -12px -12px;
+      flex-shrink: 0;
+    }
+    .composer input {
+      flex: 1;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1px solid rgba(139, 92, 246, 0.1);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--white);
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .composer input:focus {
+      outline: none;
+      border-color: var(--accent2);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+    }
+    .composer input::placeholder {
+      color: var(--muted);
+      opacity: 0.7;
+    }
+    .composer button {
+      padding: 12px 20px;
+      border-radius: 12px;
+      background: var(--accent1);
+      border: none;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .composer button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+    }
+    /* ------------- Right: member / friends panel ------------- */
+    .right-panel {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 1.5rem;
+      padding: 16px;
+      height: calc(100vh - 36px);
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+    .section {
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 0.75rem;
+      color: var(--accent3);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+    .user-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px;
+      border-radius: 10px;
+      transition: all 0.2s ease;
+      margin-bottom: 4px;
+      position: relative;
+    }
+    .user-row:hover {
+      background: rgba(139, 92, 246, 0.05);
+      transform: translateX(4px);
+    }
+    /* Fix for avatar class to ensure consistent width */
+    .avatar {
+      width: 44px;
+      height: 44px;
+      min-width: 44px;
+      min-height: 44px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      background: var(--accent1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      box-shadow: 0 4px 15px rgba(139, 92, 246, 0.2);
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      position: relative; /* so status dot can be absolutely positioned */
+    }
+    /* status dot */
+    .status {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      position: absolute;
+      right: 4px;
+      bottom: 4px;
+      border: 2px solid rgba(10,0,20,0.9);
+      box-sizing: content-box;
+    }
+    .status.online {
+      background: var(--online);
+      box-shadow: 0 0 6px rgba(52,211,153,0.35);
+    }
+    .status.offline {
+      background: var(--offline);
+    }
+    /* small text columns in user row */
+    .user-row > div:nth-child(2) {
+      flex: 1;
+      min-width: 0;
+    }
+    .user-row > div:nth-child(2) > div:first-child {
+      font-weight: 700;
+      color: var(--white);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .user-row > div:nth-child(2) > div:last-child {
+      font-size: 0.75rem;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .friend-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+    /* Input styling in right panel */
+    .right-panel input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 8px;
+      border: 1px solid rgba(139, 92, 246, 0.1);
+      background: rgba(255, 255, 255, 0.02);
+      color: var(--white);
+      font-size: 0.9rem;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .right-panel input:focus {
+      outline: none;
+      border-color: var(--accent2);
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .right-panel input::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+    /* Modal */
+    .modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      width: 480px;
+      max-width: 90vw;
+      background: rgba(10, 0, 20, 0.95);
+      backdrop-filter: blur(20px);
+      border-radius: 1.5rem;
+      padding: 28px;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      box-shadow: 0 20px 60px rgba(139, 92, 246, 0.3);
+      color: #fff;
+      z-index: 999;
+      animation: modalFadeIn 0.3s ease;
+    }
+    @keyframes modalFadeIn {
+      from {
+        opacity: 0;
+        transform: translate(-50%, -45%);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+      }
+    }
+    .modal input {
+      width: 100%;
+      padding: 12px 16px;
+      margin: 8px 0;
+      border-radius: 10px;
+      border: 1px solid rgba(139, 92, 246, 0.2);
+      background: rgba(255, 255, 255, 0.03);
+      color: var(--white);
+      font-size: 0.95rem;
+      transition: all 0.2s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .modal input:focus {
+      outline: none;
+      border-color: var(--accent2);
+      background: rgba(255, 255, 255, 0.05);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.1);
+    }
+    .modal input::placeholder {
+      color: var(--muted);
+      opacity: 0.6;
+    }
+    .modal label {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-weight: 500;
+      display: block;
+      margin-top: 12px;
+    }
+    .form-row {
+      margin-bottom: 16px;
+    }
+    .auth-actions {
+      display: flex;
+      gap: 8px;
+    }
+    #authMsg {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.4;
+    }
+    .hidden {
+      display: none !important;
+    }
+    /* Responsive */
+    @media (max-width: 1200px) {
+      .app {
+        grid-template-columns: 72px 1fr 280px;
+      }
+      .right-panel {
+        width: 280px;
+      }
+    }
+    @media (max-width: 1000px) {
+      .app {
+        grid-template-columns: 64px 1fr;
+      }
+      .right-panel {
+        display: none;
+      }
+      .channels {
+        width: 180px;
+      }
+    }
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+        gap: 10px;
+      }
+      .app {
+        grid-template-columns: 60px 1fr;
+        gap: 10px;
+      }
+      .servers {
+        padding: 8px;
+        border-radius: 1rem;
+      }
+      .server-btn {
+        width: 44px;
+        height: 44px;
+        min-width: 44px;
+        min-height: 44px;
+      }
+      .main-panel {
+        border-radius: 1rem;
+      }
+      .server-title {
+        font-size: 1.2rem;
+      }
+      .small-btn {
+        padding: 6px 10px;
+        font-size: 0.85rem;
+      }
+    }
+    @media (max-width: 480px) {
+      .header-row {
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .msg {
+        max-width: 85%;
+      }
+      .modal {
+        width: 95vw;
+        padding: 20px;
+      }
+    }
+    /* Ensure proper scrolling */
+    .servers,
+    .channels,
+    .messages,
+    .right-panel {
+      scrollbar-width: thin;
+      scrollbar-color: rgba(139, 92, 246, 0.3) transparent;
+    }
+    .servers::-webkit-scrollbar,
+    .channels::-webkit-scrollbar,
+    .messages::-webkit-scrollbar,
+    .right-panel::-webkit-scrollbar {
+      width: 6px;
+    }
+    .servers::-webkit-scrollbar-track,
+    .channels::-webkit-scrollbar-track,
+    .messages::-webkit-scrollbar-track,
+    .right-panel::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .servers::-webkit-scrollbar-thumb,
+    .channels::-webkit-scrollbar-thumb,
+    .messages::-webkit-scrollbar-thumb,
+    .right-panel::-webkit-scrollbar-thumb {
+      background: rgba(139, 92, 246, 0.3);
+      border-radius: 3px;
+    }
+    .servers::-webkit-scrollbar-thumb:hover,
+    .channels::-webkit-scrollbar-thumb:hover,
+    .messages::-webkit-scrollbar-thumb:hover,
+    .right-panel::-webkit-scrollbar-thumb:hover {
+      background: rgba(139, 92, 246, 0.5);
+    }
+    
+    /* ===== DISGUISE BUTTON STYLING ===== */
+.nav-link.disguise-btn{background:linear-gradient(135deg,rgba(139,92,246,.2),rgba(139,92,246,.1));border:1px solid rgba(139,92,246,.3);margin-top:0.5rem;margin-bottom:1rem;}
+.nav-link.disguise-btn:hover{background:linear-gradient(135deg,rgba(139,92,246,.4),rgba(139,92,246,.2));border-color:rgba(139,92,246,.5);}
+
+/* ===== DISGUISE MODAL STYLES ===== */
+.disguise-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);z-index:2000;display:none;align-items:center;justify-content:center;}
+.disguise-overlay.show{display:flex;}
+.disguise-modal{background:rgba(10,0,21,.98);border:1px solid rgba(139,92,246,.3);border-radius:1.25rem;padding:1.75rem;width:90%;max-width:420px;box-shadow:0 20px 50px rgba(139,92,246,.25);animation:modalSlide .25s ease;}
+@keyframes modalSlide{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.disguise-modal h2{font-family:'Space Grotesk',sans-serif;font-size:1.4rem;color:var(--white);margin-bottom:1.25rem;display:flex;align-items:center;gap:.5rem;}
+.current-info{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:.6rem;padding:.85rem;margin-bottom:1.25rem;}
+.current-info p{font-size:.75rem;color:var(--p3);margin-bottom:.2rem;}
+.current-info .val{font-size:.9rem;color:var(--white);word-break:break-all;}
+.form-group{margin-bottom:1rem;}
+.form-group label{display:block;font-size:.8rem;color:var(--p3);margin-bottom:.4rem;font-weight:500;}
+.form-group input{width:100%;padding:.75rem .9rem;background:rgba(255,255,255,.05);border:1px solid rgba(139,92,246,.2);border-radius:.6rem;color:var(--white);font-size:.95rem;font-family:'Inter',sans-serif;transition:all .2s;}
+.form-group input:focus{outline:none;border-color:var(--p5);background:rgba(255,255,255,.08);}
+.presets{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem;}
+.preset{padding:.4rem .7rem;background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.2);border-radius:.4rem;color:var(--p2);font-size:.75rem;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.preset:hover{background:rgba(139,92,246,.25);border-color:rgba(139,92,246,.4);color:var(--white);}
+.modal-btns{display:flex;gap:.6rem;margin-top:1.25rem;}
+.modal-btns button{flex:1;padding:.75rem 1rem;border-radius:.6rem;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;}
+.btn-cancel{background:transparent;border:1px solid rgba(139,92,246,.3);color:var(--p3);}
+.btn-cancel:hover{background:rgba(139,92,246,.1);color:var(--white);}
+.btn-reset{background:rgba(255,92,92,.1);border:1px solid rgba(255,92,92,.3);color:#ff8a8a;}
+.btn-reset:hover{background:rgba(255,92,92,.2);}
+.btn-apply{background:linear-gradient(135deg,var(--p6),var(--p5));border:none;color:var(--white);}
+.btn-apply:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(139,92,246,.35);}
+
+/* ===== LAUNCH MODAL STYLES ===== */
+.launch-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.88);backdrop-filter:blur(8px);z-index:2000;display:none;align-items:center;justify-content:center;}
+.launch-overlay.show{display:flex;}
+.launch-modal{background:rgba(10,0,21,.98);border:1px solid rgba(139,92,246,.3);border-radius:1.25rem;padding:1.75rem;width:90%;max-width:380px;box-shadow:0 20px 50px rgba(139,92,246,.25);animation:modalSlide .25s ease;}
+.launch-modal h2{font-family:'Space Grotesk',sans-serif;font-size:1.3rem;color:var(--white);margin-bottom:.4rem;}
+.launch-modal>p{color:var(--p3);font-size:.85rem;margin-bottom:1.25rem;}
+.check-group{display:flex;align-items:center;gap:.5rem;margin-bottom:.75rem;cursor:pointer;}
+.check-group input[type="checkbox"]{width:16px;height:16px;accent-color:var(--p5);cursor:pointer;}
+.check-group label{color:var(--p2);font-size:.85rem;cursor:pointer;}
+.launch-opts{display:none;margin-top:.75rem;padding:.9rem;background:rgba(139,92,246,.05);border:1px solid rgba(139,92,246,.15);border-radius:.6rem;}
+.launch-opts.show{display:block;}
+.btn-launch{width:100%;padding:.9rem;background:linear-gradient(135deg,var(--p6),var(--p5));border:none;border-radius:.6rem;color:var(--white);font-size:.95rem;font-weight:600;cursor:pointer;transition:all .2s;font-family:'Inter',sans-serif;margin-top:.75rem;}
+.btn-launch:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(139,92,246,.35);}
+  </style>
+</head>
+<body>
+  <div class="bg"></div>
+  <div class="stars"></div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <header>
+    <div class="hamburger" id="hamburger"><span></span><span></span><span></span></div>
+  </header>
+  <nav class="menu" id="menu">
+    <div class="close-btn" id="closeBtn" style="display: none;"> </div>
+    <ul class="nav-list">
+      <li><div class="nav-link nav-home">Home</div></li>
+      <li><div class="nav-link disguise-btn" id="changeDisguiseBtn">🎭 Change Disguise</div></li>
+      <li><div class="nav-category">🕹️ Home Page</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@2057dace702c51405ad7cae4cd3ad9b9ecbbfa79/annoucements.html">Annoucements</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@d3eb0c7dae57730b5b870b44004436e743b6a3cc/guidelines.html">Guidelines</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@282c390e7bfdc29358991cbb387ff3f947a17ba0/tac.html">Terms & Conditions</div>
+      </li>
+      <li><div class="nav-category">🎮 Games</div>
+        <div class="nav-link" id="htmlGamesLocalLink">HTML Games</div>
+        <div class="nav-link" id="moreGamesLink">More Games</div>
+        <div class="nav-link" id="ownerGamesLink">Owner Games</div>
+        <div class="nav-link" id="ethansGamesLink">Backup Games</div>
+        <div class="nav-link" id="extremeGamesLink">Extreme Games</div>
+        <div class="nav-link" id="dominumGamesLink">Dominum UBG</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@0ab64b002583e7aecf6b0521fa313423ca0b7224/ug.html">Classroom UG</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@f2d077c7644d2ba8cc16fe70292f8d2a65f27d3e/selenite.html">Selenite Games</div>
+        <div class="nav-link" id="superGamesLink">Super Games</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@6cd2af4955f9022e59730d88d69e5afb8d2b4c64/petezah.html?t=">PeteZah UG</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@05dfa6e3fbca86e33f53be243447ef53d4606ee3/s3.html">UBS3 Games</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@cd44279172f58f038dd085f00cf47c22a1cf33cb/wouter.html">Wouter Planet</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@7f07cc21e7bc3fb43c8e1470b54615a8143f8a39/roblox.html">Roblox Tutorial</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@a5e8fa761ca9c2e3e09ffecef6e922f52287f606/only.html">Only Games</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/1v1lol.html">1V1 LOL (New!)</div>
+      </li>
+      <li><div class="nav-category">⚙️ AI Games</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/snake.html">Snake</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/tetris.html">Tetris</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/2048.html">2048</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/mines.html">Mines</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/break.html">Breakout</div>
+      </li>
+      <li><div class="nav-category">🤖 AI Tools</div>
+        <a class="nav-link" href="https://claude.ai" target="_blank">Claude</a>
+        <a class="nav-link" href="https://chat.openai.com" target="_blank">ChatGPT</a>
+        <a class="nav-link" href="https://poe.com" target="_blank">Poe AI</a>
+        <a class="nav-link" href="https://meta.ai" target="_blank">Meta AI</a>
+        <a class="nav-link" href="https://gemini.google.com/app" target="_blank">Gemini AI</a>
+        <a class="nav-link" href="https://grok.com" target="_blank">Grok AI</a>
+        <a class="nav-link" href="https://blackbox.ai" target="_blank">BlackBox AI</a>
+        <a class="nav-link" href="https://aihumanize.com" target="_blank">AI Humanize</a>
+      </li>
+      <li><div class="nav-category">🛠️ Tools</div>
+  
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/google.html">Google Web</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/zen.html">Browser Web</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/viewer.html">HTML Viewer</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@00bcaeec990381e630b1d736ba3cedbf7d6c8da4/text.html">Text Encryptor</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@5e88925ee5112dc02c8699b6e0802545ef6ba2ee/youtube.html">📺 YouTube</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@main/mp3.html">MP3 Downloader</div>
+        <div class="nav-link" id="operatingsystem">💻 OS System</div>
+      </li>
+      <li><div class="nav-category">🍿 Movies</div>
+        <a class="nav-link" href="https://docs.google.com/presentation/d/1YDZCGRJMcIXA6CDnnxEUcNuZuEx-NdUETeeVFulhYDg/edit?slide=id.g2ce541b7098_0_1#slide=id.g2ce541b7098_0_1" target="_blank" style="text-decoration: none; color: var(--p1);">Hulu TV</a>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@befa172b2d7d5530d224617b9b4b2a696e86eebf/crunchy.html">CrunchyRoll</div>
+        <a class="nav-link" href="https://docs.google.com/presentation/d/1MKUZLOhfS1PyOtbz-uhfdNqewzDJIqZxBEfMeWPhJpE/edit?slide=id.g2d03a5085ad_0_68#slide=id.g2d03a5085ad_0_68" target="_blank" style="text-decoration: none; color: var(--p1);">Tubi TV</a>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@3701cd9a5927c8d0716f5a9ef1e88301326754a4/disney.html">Disney+</div>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@7bf5723a65805accb00d8e61ec3cd3e02ea54b7f/netflix.html">Netflix</div>
+        <a class="nav-link" href="https://www.youtube.com/channel/UCuVPpxrm2VAgpH3Ktln4HXg" target="_blank" style="text-decoration: none; color: var(--p1);">YouTube Movies</a>
+        <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@4ce306e7fa821189265bf22632292598e715c3f4/para.html">Paramount+</div>
+      </li>
+      <li><div class="nav-category">🎵 Music</div>
+        <a class="nav-link" href="https://drive.google.com/drive/folders/10tvBZbrFa6sHGvrP1XGG82kHbX2QjB2-" target="_blank" style="text-decoration: none; color: var(--p1);">Spotify Songs</a>
+        <a class="nav-link" href="https://audiomack.com/" target="_blank" style="text-decoration: none; color: var(--p1);">AudioMack</a>
+        <a class="nav-link" href="https://music.amazon.com/" target="_blank" style="text-decoration: none; color: var(--p1);">Amazon Music</a>
+        <a class="nav-link" href="https://drive.google.com/drive/folders/143yJinjOY4OG2La4FyV1tlm6xgmsvyqu" target="_blank" style="text-decoration: none; color: var(--p1);">Incognito Songs</a>
+      </li>
+      <li><div class="nav-category">🔧 Useful Sites</div>
+        <a class="nav-link" href="https://remove.bg" target="_blank" style="text-decoration: none; color: var(--p1);">RemoveBG</a>
+        <a class="nav-link" href="https://ytb.rip/en7/" target="_blank" style="text-decoration: none; color: var(--p1);">Vid Downloader</a>
+        <a class="nav-link" href="https://lingojam.com/" target="_blank" style="text-decoration: none; color: var(--p1);">LingoJam</a>
+        <a class="nav-link" href="https://soundboardguys.com/" target="_blank" style="text-decoration: none; color: var(--p1);">Soundboard</a>
+        <a class="nav-link" href="https://m365.cloud.microsoft/search/?auth=2&origindomain=Office" target="_blank" style="text-decoration: none; color: var(--p1);">Microsoft 365</a>
+      </li>
+      <li><div class="nav-category">🌐 Google Docs</div>
+      <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@c1aea70bc188155d5d15ca78aa0aca071eb788e8/seed.html">Seed Network</div>
+      <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@3e101166f3a669d88b2bf9d5d869b4256300cfa5/incog.html">Incog Network</div>
+      <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@508ec33ace5bb2cbc3dbc5ee85ee3f8c817f6da6/lb.html">Lebron Network</div>
+      <div class="nav-link" data-src="https://cdn.jsdelivr.net/gh/shayderrr/676767@9318dbe582dc8a91e97746dff301cb0e97c5bc2c/freddy.html">Freddies Internet</div>
+    </ul>
+  </nav>
+  <!-- DISGUISE MODAL -->
+<div class="disguise-overlay" id="disguiseOverlay">
+  <div class="disguise-modal">
+    <h2>🎭 Change Disguise</h2>
+    <div class="current-info">
+      <p>Current Title:</p>
+      <div class="val" id="curTitle">Dashboard</div>
+      <p style="margin-top:.5rem;">Current Favicon:</p>
+      <div class="val" id="curFavicon">Default</div>
+    </div>
+    <div class="form-group">
+      <label>Page Title</label>
+      <input type="text" id="inputTitle" placeholder="e.g., Google Docs">
+      <div class="presets">
+        <button class="preset" data-t="Google Docs" data-f="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">Google Docs</button>
+        <button class="preset" data-t="Google Slides" data-f="https://ssl.gstatic.com/docs/presentations/images/favicon-2023q4.ico">Google Slides</button>
+        <button class="preset" data-t="Dashboard" data-f="https://instructure-uploads.s3.amazonaws.com/account_30000000002042/attachments/80746393/favicon-16x16.png">Canvas</button>
+        <button class="preset" data-t="Google" data-f="https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico">Google</button>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Favicon URL</label>
+      <input type="text" id="inputFavicon" placeholder="https://example.com/favicon.ico">
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="disguiseCancel">Cancel</button>
+      <button class="btn-reset" id="disguiseReset">Reset</button>
+      <button class="btn-apply" id="disguiseApply">Apply</button>
+    </div>
+  </div>
+</div>
+
+<!-- LAUNCH MODAL -->
+<div class="launch-overlay" id="launchOverlay">
+  <div class="launch-modal">
+    <h2>🚀 Launch Game</h2>
+    <p>Ready to launch. Customize the tab appearance.</p>
+    <div class="check-group">
+      <input type="checkbox" id="customCheck">
+      <label for="customCheck">Customize game tab disguise</label>
+    </div>
+    <div class="launch-opts" id="launchOpts">
+      <div class="form-group">
+        <label>Tab Title</label>
+        <input type="text" id="launchTitle" placeholder="e.g., Google Docs">
+        <div class="presets">
+          <button class="preset lp" data-t="Google Docs" data-f="https://ssl.gstatic.com/docs/documents/images/kix-favicon7.ico">Docs</button>
+          <button class="preset lp" data-t="Google Slides" data-f="https://ssl.gstatic.com/docs/presentations/images/favicon-2023q4.ico">Slides</button>
+          <button class="preset lp" data-t="Dashboard" data-f="https://instructure-uploads.s3.amazonaws.com/account_30000000002042/attachments/80746393/favicon-16x16.png">Canvas</button>
+          <button class="preset lp" data-t="Google" data-f="https://www.gstatic.com/images/branding/searchlogo/ico/favicon.ico">Google</button>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Favicon URL</label>
+        <input type="text" id="launchFavicon" placeholder="https://example.com/favicon.ico">
+      </div>
+    </div>
+    <div class="modal-btns">
+      <button class="btn-cancel" id="launchCancel">Cancel</button>
+      <button class="btn-launch" id="launchGo">🎮 Launch</button>
+    </div>
+  </div>
+</div>
+  <div id="container">
+    <div id="content-display"></div>
+  </div>
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script>
+    // ========== DISGUISE SYSTEM ==========
+const DEFAULT_TITLE = 'Dashboard';
+const DEFAULT_FAVICON = 'https://instructure-uploads.s3.amazonaws.com/account_30000000002042/attachments/80746393/favicon-16x16.png';
+
+function loadSavedDisguise() {
+  try {
+    const t = localStorage.getItem('disguiseTitle');
+    const f = localStorage.getItem('disguiseFavicon');
+    if (t) { document.title = t; document.getElementById('curTitle').textContent = t; }
+    if (f) { setFavicon(f); document.getElementById('curFavicon').textContent = f; }
+  } catch(e) {}
+}
+
+function setFavicon(url) {
+  function applyFavicon() {
+    try {
+      // Remove all existing favicons
+      const icons = document.querySelectorAll('link[rel*="icon"]');
+      icons.forEach(el => el.remove());
+      
+      // Create new favicon
+      const link = document.createElement('link');
+      link.rel = 'icon';
+      link.type = 'image/x-icon';
+      link.href = url;
+      document.head.appendChild(link);
+    } catch(e) { console.error(e); }
+  }
+  
+  applyFavicon();
+  setTimeout(applyFavicon, 100);
+  setTimeout(applyFavicon, 300);
+  setTimeout(applyFavicon, 600);
+}
+
+function applyDisguise(title, favicon) {
+  if (title) { document.title = title; document.getElementById('curTitle').textContent = title; try { localStorage.setItem('disguiseTitle', title); } catch(e) {} }
+  if (favicon) { setFavicon(favicon); document.getElementById('curFavicon').textContent = favicon; try { localStorage.setItem('disguiseFavicon', favicon); } catch(e) {} }
+}
+
+function resetDisguise() {
+  document.title = DEFAULT_TITLE;
+  setFavicon(DEFAULT_FAVICON);
+  document.getElementById('curTitle').textContent = DEFAULT_TITLE;
+  document.getElementById('curFavicon').textContent = 'Default';
+  document.getElementById('inputTitle').value = '';
+  document.getElementById('inputFavicon').value = '';
+  try { localStorage.removeItem('disguiseTitle'); localStorage.removeItem('disguiseFavicon'); } catch(e) {}
+}
+
+loadSavedDisguise();
+
+    const hamburger = document.getElementById('hamburger');
+    const menu = document.getElementById('menu');
+    const closeBtn = document.getElementById('closeBtn');
+    const links = document.querySelectorAll('.nav-link[data-src]');
+    const homeLink = document.querySelector('.nav-home');
+    const contentDisplay = document.getElementById('content-display');
+    // ========== DISGUISE MODAL CONTROLS ==========
+const disguiseOverlay = document.getElementById('disguiseOverlay');
+document.getElementById('changeDisguiseBtn').addEventListener('click', () => { 
+  disguiseOverlay.classList.add('show'); 
+  hamburger.classList.remove('active'); 
+  menu.classList.remove('open'); 
+});
+document.getElementById('disguiseCancel').addEventListener('click', () => disguiseOverlay.classList.remove('show'));
+document.getElementById('disguiseReset').addEventListener('click', () => { resetDisguise(); disguiseOverlay.classList.remove('show'); });
+document.getElementById('disguiseApply').addEventListener('click', () => {
+  const t = document.getElementById('inputTitle').value.trim();
+  const f = document.getElementById('inputFavicon').value.trim();
+  applyDisguise(t || null, f || null);
+  disguiseOverlay.classList.remove('show');
+});
+document.querySelectorAll('.preset:not(.lp)').forEach(btn => {
+  btn.addEventListener('click', () => { 
+    document.getElementById('inputTitle').value = btn.dataset.t; 
+    document.getElementById('inputFavicon').value = btn.dataset.f; 
+  });
+});
+disguiseOverlay.addEventListener('click', e => { if (e.target === disguiseOverlay) disguiseOverlay.classList.remove('show'); });
+
+// ========== LAUNCH MODAL SYSTEM ==========
+const launchOverlay = document.getElementById('launchOverlay');
+const customCheck = document.getElementById('customCheck');
+const launchOpts = document.getElementById('launchOpts');
+let pendingUrl = null;
+
+customCheck.addEventListener('change', () => launchOpts.classList.toggle('show', customCheck.checked));
+document.querySelectorAll('.preset.lp').forEach(btn => {
+  btn.addEventListener('click', () => { 
+    document.getElementById('launchTitle').value = btn.dataset.t; 
+    document.getElementById('launchFavicon').value = btn.dataset.f; 
+  });
+});
+document.getElementById('launchCancel').addEventListener('click', () => { launchOverlay.classList.remove('show'); pendingUrl = null; });
+launchOverlay.addEventListener('click', e => { if (e.target === launchOverlay) { launchOverlay.classList.remove('show'); pendingUrl = null; } });
+
+document.getElementById('launchGo').addEventListener('click', () => {
+  if (!pendingUrl) return;
+  const cTitle = customCheck.checked ? document.getElementById('launchTitle').value.trim() : '';
+  const cFav = customCheck.checked ? document.getElementById('launchFavicon').value.trim() : '';
+  launchWithDisguise(pendingUrl, cTitle, cFav);
+  launchOverlay.classList.remove('show');
+  pendingUrl = null;
+});
+
+window.showLaunchModal = function(url) {
+  pendingUrl = url;
+  document.getElementById('launchTitle').value = '';
+  document.getElementById('launchFavicon').value = '';
+  customCheck.checked = false;
+  launchOpts.classList.remove('show');
+  launchOverlay.classList.add('show');
+}
+
+function launchWithDisguise(url, cTitle, cFav) {
+  const newWin = window.open("about:blank", "_blank");
+  if (!newWin) { console.error("Popup blocked"); return; }
+  fetch(url + "?t=" + Date.now())
+    .then(r => r.text())
+    .then(html => {
+      let mod = html;
+      
+      // Remove existing favicons and title from HTML
+      mod = mod.replace(/<link[^>]*rel=["'](?:icon|shortcut icon|apple-touch-icon)["'][^>]*>/gi, '');
+      if (cTitle) {
+        mod = mod.replace(/<title>.*?<\/title>/gi, '');
+      }
+      
+      // Create script to apply disguise to this window AND override window.open for child windows
+      let injectionScript = '<script>';
+      injectionScript += '(function(){';
+      injectionScript += 'var customTitle = ' + (cTitle ? '"' + cTitle.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"' : 'null') + ';';
+      injectionScript += 'var customFav = ' + (cFav ? '"' + cFav.replace(/\\/g, '\\\\').replace(/"/g, '\\"') + '"' : 'null') + ';';
+      injectionScript += `
+        // Function to apply disguise to current window
+        function applyToSelf() {
+          try {
+            if (customTitle) {
+              document.title = customTitle;
+            }
+            if (customFav && document.head) {
+              var icons = document.querySelectorAll('link[rel*="icon"]');
+              icons.forEach(function(el) { el.remove(); });
+              var link = document.createElement('link');
+              link.rel = 'icon';
+              link.type = 'image/x-icon';
+              link.href = customFav;
+              document.head.appendChild(link);
+            }
+          } catch(e) {}
+        }
+        
+        // Apply immediately and multiple times
+        applyToSelf();
+        setTimeout(applyToSelf, 50);
+        setTimeout(applyToSelf, 150);
+        setTimeout(applyToSelf, 300);
+        setTimeout(applyToSelf, 500);
+        setTimeout(applyToSelf, 1000);
+        setTimeout(applyToSelf, 2000);
+        
+        // Override window.open for child windows
+        var originalOpen = window.open;
+        window.open = function(url, target, features) {
+          var win = originalOpen.call(window, url, target, features);
+          if (win) {
+            function applyDisguise() {
+              try {
+                if (customTitle && win.document) {
+                  win.document.title = customTitle;
+                }
+                if (customFav && win.document && win.document.head) {
+                  var icons = win.document.querySelectorAll('link[rel*="icon"]');
+                  icons.forEach(function(el) { el.remove(); });
+                  var link = win.document.createElement('link');
+                  link.rel = 'icon';
+                  link.type = 'image/x-icon';
+                  link.href = customFav;
+                  win.document.head.appendChild(link);
+                }
+              } catch(e) {}
+            }
+            applyDisguise();
+            setTimeout(applyDisguise, 50);
+            setTimeout(applyDisguise, 200);
+            setTimeout(applyDisguise, 500);
+            setTimeout(applyDisguise, 1000);
+            setTimeout(applyDisguise, 2000);
+          }
+          return win;
+        };
+      `;
+      injectionScript += '})();';
+      injectionScript += '<\/script>';
+      
+      // Inject at start of head
+      if (mod.toLowerCase().includes('<head>')) {
+        mod = mod.replace(/<head>/i, '<head>' + injectionScript);
+      } else if (mod.toLowerCase().includes('<html>')) {
+        mod = mod.replace(/<html[^>]*>/i, '$&<head>' + injectionScript + '</head>');
+      } else {
+        mod = injectionScript + mod;
+      }
+      
+      newWin.document.open();
+      newWin.document.write(mod);
+      newWin.document.close();
+    })
+    .catch(err => { console.error("Fetch error:", err); newWin.close(); });
+}
+
+// Listen for postMessage from launch pages
+window.addEventListener('message', e => { if (e.data && e.data.type === 'showLaunchModal') showLaunchModal(e.data.url); });
+    const homePageHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<audio src="https://cdn.jsdelivr.net/gh/shayderrr/Static@main/Ambient-BreakcoreDnB-Mix-02.mp3" autoplay loop></audio>
+    <title>The Game Vault | 🕹️👾</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --purple-900: #1a0033;
+            --purple-800: #2d0052;
+            --purple-700: #4a0080;
+            --purple-600: #6b21a8;
+            --purple-500: #8b5cf6;
+            --purple-400: #a78bfa;
+            --purple-300: #c4b5fd;
+            --purple-200: #e9d5ff;
+            --purple-100: #f3e8ff;
+            --black: #000000;
+            --white: #ffffff;
+            --gold: #fbbf24;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--black);
+            color: var(--white);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background */
+        .background-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #000000 0%, #0a0015 50%, #000000 100%);
+            z-index: 0;
+        }
+
+        .stars {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20px 30px, white, transparent),
+                radial-gradient(2px 2px at 60px 70px, white, transparent),
+                radial-gradient(1px 1px at 50px 50px, white, transparent),
+                radial-gradient(1px 1px at 130px 80px, white, transparent),
+                radial-gradient(2px 2px at 90px 150px, white, transparent);
+            background-repeat: repeat;
+            background-size: 200px 200px;
+            opacity: 0.4;
+            animation: starsMove 100s linear infinite;
+            z-index: 1;
+        }
+
+        @keyframes starsMove {
+            from { transform: translateY(0); }
+            to { transform: translateY(-200px); }
+        }
+
+        /* Purple glow orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.1;
+            z-index: 2;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .orb-1 {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, var(--purple-600), transparent);
+            top: -100px;
+            left: -100px;
+            animation-duration: 25s;
+        }
+
+        .orb-2 {
+            width: 350px;
+            height: 350px;
+            background: radial-gradient(circle, var(--purple-700), transparent);
+            bottom: -100px;
+            right: -100px;
+            animation-duration: 30s;
+            animation-delay: -10s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) scale(1); }
+            33% { transform: translate(50px, -50px) scale(1.1); }
+            66% { transform: translate(-50px, 50px) scale(0.9); }
+        }
+
+        /* Main container */
+        .container {
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            min-height: 100vh;
+            animation: fadeIn 1s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 0 2rem;
+        }
+
+        /* Page title */
+        .page-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+            text-align: center;
+            padding-top: 80px;
+        }
+
+        .page-title .title-text {
+            background: linear-gradient(135deg, var(--white) 0%, var(--purple-300) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-subtitle {
+            font-size: 1.125rem;
+            color: var(--purple-200);
+            margin-bottom: 3rem;
+            font-weight: 400;
+            text-align: center;
+            line-height: 1.8;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .page-subtitle a {
+            text-decoration: none;
+            color: var(--purple-200);
+        }
+
+        /* SIMPLIFIED SEARCH SECTION */
+        .search-section {
+            max-width: 600px;
+            margin: 0 auto 3rem;
+        }
+
+        .search-wrapper {
+            position: relative;
+            width: 100%;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 14px 48px 14px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            color: var(--white);
+            font-size: 1rem;
+            font-family: 'Inter', sans-serif;
+            transition: all 0.2s ease;
+            outline: none;
+        }
+
+        .search-input::placeholder {
+            color: rgba(196, 181, 253, 0.6);
+        }
+
+        .search-input:focus {
+            background: rgba(255, 255, 255, 0.07);
+            border-color: var(--purple-500);
+            box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.1);
+        }
+
+        .search-button {
+            position: absolute;
+            right: 6px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: transparent;
+            border: none;
+            color: var(--purple-400);
+            cursor: pointer;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s ease;
+        }
+
+        .search-button:hover {
+            color: var(--purple-300);
+        }
+
+        .search-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* Quick filters - cleaner design */
+        .quick-filters {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.25rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1rem;
+            background: transparent;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 8px;
+            color: var(--purple-300);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .filter-btn:hover {
+            background: rgba(139, 92, 246, 0.1);
+            border-color: var(--purple-400);
+            color: var(--white);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--purple-500), transparent);
+            margin: 3rem 0;
+            opacity: 0.3;
+        }
+
+        /* Games section */
+        .games-section {
+            max-width: 900px;
+            margin: 0 auto 3rem;
+        }
+
+        .game-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .game-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(139, 92, 246, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(139, 92, 246, 0.2);
+        }
+
+        .game-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .game-image-placeholder {
+            width: 200px;
+            height: 150px;
+            background: rgba(139, 92, 246, 0.1);
+            border: 2px dashed rgba(139, 92, 246, 0.3);
+            border-radius: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: var(--purple-300);
+            font-size: 0.875rem;
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .game-image {
+            width: 200px;
+            height: 150px;
+            border-radius: 1rem;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+
+        .game-info {
+            flex: 1;
+        }
+
+        .game-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--white);
+            margin-bottom: 0.75rem;
+        }
+
+        .game-rating {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            letter-spacing: 0.1em;
+        }
+
+        .game-description {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--purple-100);
+            margin-bottom: 1rem;
+        }
+
+        .game-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .game-tag {
+            background: rgba(139, 92, 246, 0.2);
+            color: var(--purple-200);
+            padding: 0.4rem 1rem;
+            border-radius: 1rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+        }
+
+        /* Footer section */
+        .footer-section {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            max-width: 900px;
+            margin: 3rem auto;
+            text-align: center;
+        }
+
+        .footer-title {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--white);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .contributor {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .star-icon {
+            display: inline-block;
+            font-size: 1.25rem;
+            animation: rotateStar 3s linear infinite;
+            filter: drop-shadow(0 0 8px #fbbf24);
+            color: #fbbf24;
+        }
+
+        @keyframes rotateStar {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .dizzy-icon {
+            display: inline-block;
+            position: relative;
+            width: 1.5rem;
+            height: 1.5rem;
+            margin-left: 0.25rem;
+        }
+
+        .dizzy-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Sequential reveal animation for shield parts */
+        .badge-outline {
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+            animation: drawOutline 2s ease-in-out infinite;
+        }
+
+        .badge-fill {
+            opacity: 0;
+            animation: fadeInBadge 2s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+
+        .badge-star {
+            opacity: 0;
+            transform: scale(0);
+            transform-origin: center;
+            animation: popInStar 2s ease-in-out infinite;
+            animation-delay: 1s;
+        }
+
+        @keyframes drawOutline {
+            0% {
+                stroke-dashoffset: 100;
+                opacity: 0;
+            }
+            25% {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
+            75% {
+                stroke-dashoffset: 0;
+                opacity: 1;
+            }
+            100% {
+                stroke-dashoffset: 100;
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInBadge {
+            0% {
+                opacity: 0;
+            }
+            25% {
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            75% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        @keyframes popInStar {
+            0% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            50% {
+                opacity: 0;
+                transform: scale(0);
+            }
+            62.5% {
+                opacity: 1;
+                transform: scale(1.2);
+            }
+            75% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(0);
+            }
+        }
+
+        .footer-message {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--purple-100);
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, var(--purple-600), var(--purple-700));
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.75rem;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            text-decoration: none;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .footer-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        /* Responsive design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .page-title {
+                font-size: 2.5rem;
+            }
+
+            .page-subtitle {
+                font-size: 1rem;
+            }
+
+            .search-input {
+                font-size: 0.9375rem;
+                padding: 12px 44px 12px 16px;
+            }
+
+            .game-header {
+                flex-direction: column;
+            }
+
+            .game-image-placeholder,
+            .game-image {
+                width: 100%;
+                height: 200px;
+            }
+
+            .game-title {
+                font-size: 1.5rem;
+            }
+
+            .footer-title {
+                font-size: 1.25rem;
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .page-title {
+                font-size: 2rem;
+            }
+
+            .search-input {
+                font-size: 0.875rem;
+            }
+
+            .quick-filters {
+                gap: 0.5rem;
+            }
+
+            .filter-btn {
+                font-size: 0.8125rem;
+                padding: 0.4rem 0.8rem;
+            }
+
+            .game-card {
+                padding: 1.5rem;
+            }
+
+            .footer-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .footer-links {
+                flex-direction: column;
+            }
+
+            .footer-link {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background elements -->
+    <div class="background-gradient"></div>
+    <div class="stars"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+
+    <!-- Main content -->
+    <div class="container">
+        <header class="header">
+        </header>
+
+        <main>
+            <h1 class="page-title"><span class="title-text">Shaded Games</span></h1>
+            <p class="page-subtitle">
+                Discover and play hundreds of fun, free online games — all in one place. With over 7,000 games available, there's always something new to explore. Not into games? No problem — we also offer powerful tools like Chat Room, LSB Steganography, and much more. Join us on this adventure as we make school a little more fun.  
+                <a href="https://forms.gle/g6GjUZYHRLpRway36" target="_blank">Want to suggest games? Click here!</a>
+            </p>
+
+            <!-- Simplified Search Section -->
+            <div class="search-section">
+                <form id="searchForm">
+                    <div class="search-wrapper">
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            id="searchInput"
+                            placeholder="Search games, tools, or content..." 
+                            required
+                        >
+                        <button type="submit" class="search-button" aria-label="Search">
+                            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+                <div class="quick-filters">
+                    <button type="button" class="filter-btn" data-search="Games">Games</button>
+                    <button type="button" class="filter-btn" data-search="HTML">HTML</button>
+                    <button type="button" class="filter-btn" data-search="Network">Network</button>
+                    <button type="button" class="filter-btn" data-search="AI">AI</button>
+                </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Games Section -->
+            <section class="games-section">
+                <!-- Game 1: Basket Random -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <div class="game-image-placeholder">
+                            <img src="https://play-lh.googleusercontent.com/6AN9KKe5M9udzoQA1J00dc6po5dNY9JInI_ewDKcPXocPjEHWTqJV0d2CwSWxYRhTh4=w526-h296-rw" alt="Basket Random" width="210px" height="150px" style="border-radius: 4px;">
+                        </div>
+                        <div class="game-info" style="margin-top: 2rem;">
+                            <h2 class="game-title">Basket Random</h2>
+                            <div class="game-rating">⭐⭐⭐⭐⭐</div>
+                        </div>
+                    </div>
+                    <p class="game-description">
+                        Fun, fast-paced browser basketball game where you face off as wobbly, cartoonish players in unpredictable one-on-one matches. You can play solo, locally with a friend, or compete in crazy randomized courts. The controls are simple, the action is chaotic and silly, and the goal is to jump, tip, and out-score your opponent with wild physics to become the ultimate hoops champ.
+                    </p>
+                    <div class="game-tags">
+                        <span class="game-tag">HTML Games</span>
+                        <span class="game-tag">More Games</span>
+                    </div>
+                </div>
+
+                <!-- Game 2: Gunspin -->
+                <div class="game-card">
+                    <div class="game-header">
+                        <div class="game-image-placeholder">
+                            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQdS20YMopMPcV7xgRlO_4aq33o6XUMavO5Hg&s" alt="Gunspin" width="210px" height="150px" style="border-radius: 4px;">
+                        </div>
+                        <div class="game-info" style="margin-top: 2rem;">
+                            <h2 class="game-title">Gunspin</h2>
+                            <div class="game-rating" style="color: var(--gold);">
+                                ⭐⭐⭐⭐<span style="filter: grayscale(100%) brightness(20%);">⭐</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="game-description">
+                        Fun, fast-paced browser arcade game where you launch your gun and fly through chaotic, physics-based runs. You can play solo, try to beat your best distance, or compete for high scores online. The controls are simple, the action is wild and unpredictable, and the goal is to shoot, chain, and out-fly your previous runs to become the ultimate champ.
+                    </p>
+                    <div class="game-tags">
+                        <span class="game-tag">HTML Games</span>
+                        <span class="game-tag">More Games</span>
+                    </div>
+                </div>
+            </section>
+
+            <div class="divider"></div>
+
+            <!-- Footer Section -->
+            <section class="footer-section">
+                <div class="footer-title">
+                    <span>Made by:</span>
+                    <span class="contributor">
+                        <span>shxyder</span>
+                        <span class="star-icon">★</span>
+                    </span>
+                    <span>|</span>
+                    <span>Other contributors:</span>
+                    <span class="contributor">
+                        <span>Sniker</span>
+                        <span class="dizzy-icon">
+                            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <!-- Shield/Badge outline (draws first) -->
+                                <path class="badge-outline" d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6l-8-4z" 
+                                      stroke="#8b5cf6" stroke-width="1.5" fill="none"/>
+                                
+                                <!-- Shield fill (appears second) -->
+                                <path class="badge-fill" d="M12 2L4 6v6c0 5.5 3.8 10.7 8 12 4.2-1.3 8-6.5 8-12V6l-8-4z" 
+                                      fill="#8b5cf6" opacity="0.3"/>
+                                
+                                <!-- Checkmark/Star in center (pops in last) -->
+                                <path class="badge-star" d="M9 12l2 2 4-4" 
+                                      stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                    </span>
+                </div>
+                <p class="footer-message">
+                    I have a lot of motivation and enthusiasm for this project. I will try my best 
+                    to keep up with the progress on this website! Trust me, this will be an epic 
+                    adventure for all of the people in this group, especially since this is risk-free 
+                    from trouble.
+                </p>
+                <div class="footer-links">
+                    <a href="https://sites.google.com/student.allenisd.org/the-game-vault/home-page/guidelines" class="footer-link" target="_blank">
+                        <svg style="width: 1.25rem; height: 1.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span>Guidelines</span>
+                    </a>
+                    <a href="https://sites.google.com/student.allenisd.org/the-game-vault/home-page/announcements" class="footer-link">
+                        <svg style="width: 1.25rem; height: 1.25rem;" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"></path>
+                        </svg>
+                        <span>Announcements</span>
+                    </a>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function updateTime() {
+            const now = new Date();
+            const timeString = now.toUTCString();
+            document.getElementById('currentTime').textContent = timeString;
+        }
+
+        // Update time immediately and then every second
+        updateTime();
+        setInterval(updateTime, 1000);
+
+        // Search functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchForm = document.getElementById('searchForm');
+            const searchInput = document.getElementById('searchInput');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+
+            // Handle form submission
+            searchForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const query = searchInput.value.trim();
+                if (query) {
+                    performSearch(query);
+                }
+            });
+
+            // Handle filter button clicks
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const searchTerm = this.getAttribute('data-search');
+                    searchInput.value = searchTerm;
+                    performSearch(searchTerm);
+                });
+            });
+
+            // Function to perform the search
+            function performSearch(query) {
+                // Construct the search URL
+                const searchUrl = \`https://sites.google.com/search/student.allenisd.org/the-game-vault?query=\${encodeURIComponent(query)}\`;
+                
+                // Open in new tab
+                window.open(searchUrl, '_blank');
+                
+                // Optional: Clear the search input after search
+                // searchInput.value = '';
+            }
+
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', function(e) {
+                // Ctrl/Cmd + K to focus search
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    searchInput.focus();
+                    searchInput.select();
+                }
+            });
+        });
+    <\/script>
+</body>
+</html>
+    `;
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('active');
+      menu.classList.toggle('open');
+    });
+    closeBtn.addEventListener('click', () => {
+      hamburger.classList.remove('active');
+      menu.classList.remove('open');
+    });
+    document.addEventListener('click', e => {
+      if (!menu.contains(e.target) && !hamburger.contains(e.target) && menu.classList.contains('open')) {
+        hamburger.classList.remove('active');
+        menu.classList.remove('open');
+      }
+    });
+    function loadContent(url) {
+      fetch(url)
+        .then(response => response.text())
+        .then(html => {
+          contentDisplay.innerHTML = html;
+          const scripts = contentDisplay.querySelectorAll('script');
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            Array.from(oldScript.attributes).forEach(attr => {
+              newScript.setAttribute(attr.name, attr.value);
+            });
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+        })
+        .catch(err => {
+          contentDisplay.innerHTML = '<div style="padding:2rem;color:var(--p3);">Error loading content</div>';
+        });
+    }
+    function loadHomePage() {
+      contentDisplay.innerHTML = homePageHTML;
+      const scripts = contentDisplay.querySelectorAll('script');
+      scripts.forEach(oldScript => {
+        const newScript = document.createElement('script');
+        Array.from(oldScript.attributes).forEach(attr => {
+          newScript.setAttribute(attr.name, attr.value);
+        });
+        newScript.textContent = oldScript.textContent;
+        oldScript.parentNode.replaceChild(newScript, oldScript);
+      });
+    }
+    homeLink.addEventListener('click', e => {
+      e.preventDefault();
+      loadHomePage();
+      if(window.innerWidth <= 768){
+        hamburger.classList.remove('active');
+        menu.classList.remove('open');
+      }
+    });
+    links.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const url = link.getAttribute('data-src');
+        loadContent(url);
+        if(window.innerWidth <= 768){
+          hamburger.classList.remove('active');
+          menu.classList.remove('open');
+        }
+      });
+    });
+
+const htmlGamesLocalHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', function(){
+      window.showLaunchModal('https://cdn.jsdelivr.net/gh/thedecap/676767@170c9a9b51bcc26e2400cbf0efe684cafb28e106/ugs.html');
+    });
+  <\/script>
+</body>
+</html>
+`;
+
+const linkedMore = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', launch);
+    function launch() {
+      const newWin = window.open("about:blank", "_blank");
+      if (!newWin) {
+        console.error("Popup blocked");
+        return;
+      }
+      fetch("https://cdn.jsdelivr.net/gh/shayderrr/676767/moregames.html?t=" + Date.now())
+        .then(response => response.text())
+        .then(text => {
+          newWin.document.open();
+          newWin.document.write(text);
+          newWin.document.close();
+        })
+        .catch(err => {
+          console.error("Fetch error:", err);
+          newWin.close();
+        });
+    }
+  <\/script>
+</body>
+</html>
+`;
+
+const oslink = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', function(){
+      window.showLaunchModal('https://cdn.jsdelivr.net/gh/shayderrr/676767@main/operating.html');
+    });
+  <\/script>
+</body>
+</html>
+`;
+
+const ethansGamesHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', function(){
+      window.showLaunchModal('https://cdn.jsdelivr.net/gh/shayderrr/676767@4d0ea0395c0791bd6dc40c0f7fc7c5262bf9f17f/ethans.html');
+    });
+  <\/script>
+</body>
+</html>
+`;
+
+const ownerGamesHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', function(){
+      window.showLaunchModal('https://cdn.jsdelivr.net/gh/shayderrr/676767/owner.html');
+    });
+  <\/script>
+</body>
+</html>
+`;
+
+const extremeGamesHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', function(){
+      window.showLaunchModal('https://cdn.jsdelivr.net/gh/shayderrr/676767/extreme.html');
+    });
+  <\/script>
+</body>
+</html>
+`;
+
+const dominumGamesHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', function(){
+      window.showLaunchModal('https://cdn.jsdelivr.net/gh/shayderrr/676767/dominum.html');
+    });
+  <\/script>
+</body>
+</html>
+`;
+
+const superGamesHTML = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    html, body { padding: 0; margin: 0; height: 100%; }
+    .button { display: flex; align-items: center; justify-content: center; width: 100vw; height: 100vh; background-color: #000; color: #fff; font-family: Arial, sans-serif; font-size: 24px; font-weight: bold; cursor: pointer; text-decoration: none; transition: background-color 0.3s; }
+    .button:hover { background-color: #4a148c; }
+  </style>
+</head>
+<body>
+  <a id="button" class="button">Launch In A New Tab</a>
+  <script>
+    document.getElementById('button').addEventListener('click', function(){
+      window.showLaunchModal('https://cdn.jsdelivr.net/gh/shayderrr/676767/super.html');
+    });
+  <\/script>
+</body>
+</html>
+`;
+    /// for devs, set func here, for ex js copy and then link it
+function setContent(html) {
+  contentDisplay.innerHTML = html;
+  Array.from(contentDisplay.querySelectorAll('script')).forEach(old => {
+    const script = document.createElement('script');
+    Array.from(old.attributes).forEach(attr => script.setAttribute(attr.name, attr.value));
+    script.textContent = old.textContent;
+    old.parentNode.replaceChild(script, old);
+  });
+}
+
+document.getElementById('ethansGamesLink').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(ethansGamesHTML);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+
+document.getElementById('ownerGamesLink').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(ownerGamesHTML);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+
+document.getElementById('htmlGamesLocalLink').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(htmlGamesLocalHTML);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+document.getElementById('moreGamesLink').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(linkedMore);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+
+document.getElementById('extremeGamesLink').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(extremeGamesHTML);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+
+document.getElementById('dominumGamesLink').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(dominumGamesHTML);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+
+document.getElementById('superGamesLink').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(superGamesHTML);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+
+document.getElementById('operatingsystem').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(oslink);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+  document.getElementById('aether').addEventListener('click', function(e){
+  e.preventDefault();
+  setContent(aetherHTML);
+  hamburger.classList.remove('active');
+  menu.classList.remove('open');
+});
+    loadHomePage();
+  </script>
+</body>
+</html>
