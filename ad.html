@@ -1,0 +1,82 @@
+<!-- GAME VAULT NOTIFICATION BAR (CLOSABLE) -->
+<!-- Copy this entire block into your website -->
+
+<!-- 1. Fonts -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@600&display=swap" rel="stylesheet">
+
+<!-- 2. Styles -->
+<style>
+    .gv-notification-bar {
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40%;
+        max-width: 600px;
+        min-width: 280px;
+        
+        /* Glassmorphism Style */
+        background: rgba(26, 0, 51, 0.85);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        
+        /* Border & Glow */
+        border: 1px solid #8b5cf6;
+        box-shadow: 0 0 20px rgba(139, 92, 246, 0.4);
+        
+        /* Layout & Text */
+        color: #ffffff;
+        font-family: 'Space Grotesk', sans-serif;
+        font-weight: 600;
+        font-size: 1rem;
+        padding: 12px 20px;
+        border-radius: 50px;
+        z-index: 99999;
+        
+        /* Flexbox for alignment */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        /* Animation */
+        animation: gvSlideDown 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        pointer-events: auto; /* Allows clicking */
+        user-select: none;
+    }
+
+    /* Close Button Style */
+    .gv-close-btn {
+        position: absolute;
+        right: 15px;
+        background: transparent;
+        border: none;
+        color: rgba(255, 255, 255, 0.6);
+        font-size: 1.5rem;
+        line-height: 1;
+        cursor: pointer;
+        padding: 0;
+        transition: color 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .gv-close-btn:hover {
+        color: #ffffff;
+    }
+
+    @keyframes gvSlideDown {
+        from { top: -80px; opacity: 0; }
+        to { top: 20px; opacity: 1; }
+    }
+</style>
+
+<!-- 3. The Element -->
+<div class="gv-notification-bar" id="gvNotification">
+    <span>Made by Game Vault</span>
+    <button class="gv-close-btn" onclick="document.getElementById('gvNotification').style.display='none'" aria-label="Close">
+        &times;
+    </button>
+</div>
